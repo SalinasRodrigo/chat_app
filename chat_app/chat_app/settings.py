@@ -31,6 +31,9 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'rest_framework',
+    'chat_api',
+    'daphne', 
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -67,7 +70,9 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'chat_app.wsgi.application'
+
+ASGI_APPLICATION = "chat_app.asgi.application"
+# WSGI_APPLICATION = 'chat_app.wsgi.application'
 
 
 # Database

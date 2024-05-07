@@ -1,0 +1,25 @@
+{
+  "messages": [
+    {
+      "id": 0,
+      "message": "ke onda ke px",
+      "id_chat": 1,
+      "id_remitente": 0,
+      "created_at": "10-11-2024"
+    },
+    {
+      "id": 1,
+      "message": "ke onda ke px",
+      "id_chat": 1,
+      "id_remitente": 0,
+      "created_at": "10-11-2024"
+    },
+    {
+      "id": 2,
+      "message": "ke onda ke px",
+      "id_chat": 1,
+      "id_remitente": 0,
+      "created_at": "10-11-2024"
+    }
+  ]
+}
