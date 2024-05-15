@@ -2,16 +2,23 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from .models import MyUser
 from .serializers import UserSerializer
+from django.contrib.auth.models import User
 
 
 @api_view(['GET'])
 def getRoutes(request):
     routes = [
         {
-            "Endpoint": "ingresos/year/",
+            "Endpoint": "chat/",
             "method": "GET",
             "body": None,
-            "description": "Retorna los ingresos agrupados por año.",
+            "description": "Retorna las rutas.",
+        },
+        {
+            "Endpoint": "chat/user",
+            "method": "POST",
+            "body": None,
+            "description": "Retorna un usuario.",
         }
     ]
     return Response(routes)
@@ -19,10 +26,12 @@ def getRoutes(request):
 @api_view(['POST'])
 def getUser(request):
     data = request.data
-    users = MyUser.objects.get(username=data["username"])
-    
-    if users.check_password(data["password"]):
-        serial_users = UserSerializer(users, many=False)
+    print(data)
+    user = User.objects.get(email=data["email"])
+    myUser = MyUser.objects.get(user=user)
+    print(myUser)
+    if user.check_password(data["password"]):
+        serial_users = UserSerializer(myUser, many=False)
         return Response(serial_users.data)
     return Response("ERROR")
 
