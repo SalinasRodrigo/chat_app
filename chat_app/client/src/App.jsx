@@ -15,15 +15,33 @@ function App() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    setUser(1)
-  }
+    const data = new FormData(event.target);
+    const newUser = Object.fromEntries(data);
+    console.log(newUser)
+    getUser(newUser);
+  };
+
+  const getUser = (newUser) => {
+    fetch("/chat/login/", {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json",
+      },
+      body: JSON.stringify(newUser),
+    })
+      .then((res) => res.json())
+      .then((response) => {
+        const newUser = response;
+        setUser(newUser);
+      });
+  };
 
   return (
     <>
       <>
         {user ? (
           <main>
-            <ChatList />
+            <ChatList setUser={setUser} />
             <Chat />
           </main>
         ) : (

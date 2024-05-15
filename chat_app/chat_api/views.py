@@ -15,25 +15,43 @@ def getRoutes(request):
             "description": "Retorna las rutas.",
         },
         {
-            "Endpoint": "chat/user",
+            "Endpoint": "chat/login/",
             "method": "POST",
             "body": None,
             "description": "Retorna un usuario.",
-        }
+        },
+        {
+            "Endpoint": "chat/user/",
+            "method": "POST",
+            "body": None,
+            "description": "Retorna un usuario por su id.",
+        },
+        {
+            "Endpoint": "chat/user/create",
+            "method": "POST",
+            "body": None,
+            "description": "Crea un usuario.",
+        },
     ]
     return Response(routes)
 
 @api_view(['POST'])
-def getUser(request):
+def login(request):
     data = request.data
-    print(data)
     user = User.objects.get(email=data["email"])
     myUser = MyUser.objects.get(user=user)
-    print(myUser)
     if user.check_password(data["password"]):
         serial_users = UserSerializer(myUser, many=False)
         return Response(serial_users.data)
     return Response("ERROR")
+
+@api_view(['POST'])
+def getUser(request):
+    data = request.data
+    user = User.objects.get(id=data["id"])
+    myUser = MyUser.objects.get(user=user)
+    serial_users = UserSerializer(myUser, many=False)
+    return Response(serial_users.data)
 
 @api_view(['POST'])
 def createUser(request):

@@ -1,7 +1,12 @@
+/* eslint-disable react/prop-types */
 import "./ChatList.css";
 
-export default function ChatList() {
+export default function ChatList({setUser}) {
   
+  const handleClick = () => {
+    setUser(null)
+  }
+
   return (
     <div className="chat-list">
       <ul>
@@ -15,6 +20,7 @@ export default function ChatList() {
           <a href="#">chat 3</a>
         </li>
       </ul>
+      <button onClick={handleClick}>Cerrar session</button>
     </div>
   );
 }
