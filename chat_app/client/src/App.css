@@ -9,44 +9,56 @@ main{
   height: 100vh;
 }
 
-.channels{
-  background-color: #120f13;
-}
+/* form css*/
 
-.chat{
+.form-bg{
+  height: 100vh;
+  width: 100vw;
   background-color: #252329;
   display: flex;
-  align-items: end;
-  justify-content: start;
-  padding: 40px;
+  align-items: center;
+  justify-content: center;
+
+  & form{
+    display: flex;
+    gap: 20px;
+    flex-direction: column;
+    align-items: start;
+    justify-content: space-between;
+    background-color: #120f13;
+    padding: 30px;
+    border-radius: 1.5rem;
+  }
+
+  & input{
+    width: 250px;
+    height: 25px;
+    color: #120f13;
+  }
+
 }
 
-.chat-content{
+.form-btns{
   width: 100%;
-}
-
-.send{
   display: flex;
   align-items: center;
-}
+  justify-content: space-between;
+  gap: 10px;
 
-.message-inp{
-  background-color: #3c393f;
-  width: 100%;
-  padding: 15px;
-  border: none;
-  border-radius: 0.5rem;
-}
+  & input[type=submit]{
+    width: 50%;
+    background-color: #2d9cdb;
+    border: none;
+    border-radius: 0.25rem;
+    color: #e0e0e0;
+  }
 
-.submit-message{
-  margin: -40px;
-  width: 30px;
-  height: 30px;
-  background-color: #2d9cdb;
-  border: none;
-  border-radius: 0.25rem;
-}
+  & button {
+    width: 50%;
+    height: 25px;
+    background-color: #2d9cdb;
+    border: none;
+    border-radius: 0.25rem;
+  }
 
-.message-inp:focus{
-  outline: none;
 }

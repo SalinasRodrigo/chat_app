@@ -1,52 +1,48 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
+import ChatList from "./components/ChatList";
+import Chat from "./components/Chat";
 
 const HOST = "127.0.0.1:8000";
 
 function App() {
+  const [user, setUser] = useState(null);
+
   useEffect(() => {
-    const chatSocket = new WebSocket(
-      "ws://" + HOST + "/ws/chat/" + "chats" + "/"
-    );
+    const chatSocket = new WebSocket("ws://" + HOST + "/ws/chat/" + 1 + "/");
   }, []);
+
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    setUser(1)
+  }
 
   return (
     <>
-      <main>
-        <div className="channels">
-          <ul>
-            <li>
-              <a href="#">chat 1</a>
-            </li>
-            <li>
-              <a href="#">chat 2</a>
-            </li>
-            <li>
-              <a href="#">chat 3</a>
-            </li>
-          </ul>
-        </div>
-        <div className="chat">
-          <div className="chat-content">
-            <ul>
-              <li>mensaje 1</li>
-              <li>mensaje 2</li>
-              <li>mensaje 3</li>
-              <li>mensaje 4</li>
-            </ul>
-            <form className="send">
-              <input
-                type="text"
-                name="message"
-                id="message"
-                className="message-inp"
-                placeholder="Escribe tu mensaje aqui"
-              />
-              <input type="submit" className="submit-message" value={"ey"} />
+      <>
+        {user ? (
+          <main>
+            <ChatList />
+            <Chat />
+          </main>
+        ) : (
+          <div className="form-bg">
+            <form onSubmit={handleSubmit}>
+              <h2>Iniciar sesion</h2>
+              <label htmlFor="email">Email</label>
+              <input type="email" name="email" id="email" className="form-email"/>
+              <label htmlFor="password">Contraseña</label>
+              <input type="password" name="password" id="password" className="form-password"/>
+              <div className="form-btns">
+                <input type="submit" value="Confirmar" className="form-submit" />
+                <button>Crear usuario</button>
+              </div> 
             </form>
           </div>
-        </div>
-      </main>
+        )}
+
+      </>
     </>
   );
 }
