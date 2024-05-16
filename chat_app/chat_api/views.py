@@ -68,9 +68,7 @@ def createUser(request):
 
 @api_view(['GET'])
 def getContacts(request, pk):
-    user = User.objects.get(id=pk)
-    print(user)
-    myUser = MyUser.objects.get(user=user)
+    myUser = MyUser.objects.get(id=pk)
     print(myUser)
     contacts = myUser.contacts.all()
     serial_contacts = MyUserSerializer(contacts, many=True)

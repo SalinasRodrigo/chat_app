@@ -1,26 +1,20 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import "./App.css";
 import ChatList from "./components/ChatList";
 import Chat from "./components/Chat";
 
-const HOST = "127.0.0.1:8000";
+
 
 function App() {
   const [user, setUser] = useState(null);
-  // const [contacts, setContacts] = useState([]);
-
-  useEffect(() => {
-    const chatSocket = new WebSocket("ws://" + HOST + "/ws/chat/" + 1 + "/");
-  }, []);
+  const [contacts, setContacts] = useState([]);
 
 
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.target);
     const newUser = Object.fromEntries(data);
-    console.log(newUser)
     getUser(newUser);
-    // getContacts(user.id);
   };
 
   const getUser = (newUser) => {
@@ -35,30 +29,26 @@ function App() {
       .then((response) => {
         const newUser = response;
         setUser(newUser);
+        getContacts(newUser.id);
       });
   };
 
-  // const getContacts = (id) => {
-  //   fetch("/chat/login/", {
-  //     method: "POST",
-  //     headers: {
-  //       "Content-type": "application/json",
-  //     },
-  //     body: JSON.stringify(id),
-  //   })
-  //     .then((res) => res.json())
-  //     .then((response) => {
-  //       const newCOntacts = response;
-  //       setContacts(newCOntacts);
-  //     });
-  // }
+  const getContacts = (id) => {
+    fetch(`chat/user/contacts/${id}`)
+      .then((res) => res.json())
+      .then((response) => {
+        const newContacts = response;
+        console.log(newContacts)
+        setContacts(newContacts);
+      });
+  }
 
   return (
     <>
       <>
         {user ? (
           <main>
-            <ChatList setUser={setUser} />
+            <ChatList setUser={setUser} contacts={contacts} />
             <Chat />
           </main>
         ) : (
