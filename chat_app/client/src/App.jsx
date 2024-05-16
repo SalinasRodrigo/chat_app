@@ -7,6 +7,7 @@ const HOST = "127.0.0.1:8000";
 
 function App() {
   const [user, setUser] = useState(null);
+  // const [contacts, setContacts] = useState([]);
 
   useEffect(() => {
     const chatSocket = new WebSocket("ws://" + HOST + "/ws/chat/" + 1 + "/");
@@ -19,6 +20,7 @@ function App() {
     const newUser = Object.fromEntries(data);
     console.log(newUser)
     getUser(newUser);
+    // getContacts(user.id);
   };
 
   const getUser = (newUser) => {
@@ -35,6 +37,21 @@ function App() {
         setUser(newUser);
       });
   };
+
+  // const getContacts = (id) => {
+  //   fetch("/chat/login/", {
+  //     method: "POST",
+  //     headers: {
+  //       "Content-type": "application/json",
+  //     },
+  //     body: JSON.stringify(id),
+  //   })
+  //     .then((res) => res.json())
+  //     .then((response) => {
+  //       const newCOntacts = response;
+  //       setContacts(newCOntacts);
+  //     });
+  // }
 
   return (
     <>

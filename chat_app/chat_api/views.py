@@ -1,7 +1,7 @@
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from .models import MyUser
-from .serializers import UserSerializer
+from .serializers import MyUserSerializer
 from django.contrib.auth.models import User
 
 
@@ -41,7 +41,7 @@ def login(request):
     user = User.objects.get(email=data["email"])
     myUser = MyUser.objects.get(user=user)
     if user.check_password(data["password"]):
-        serial_users = UserSerializer(myUser, many=False)
+        serial_users = MyUserSerializer(myUser, many=False)
         return Response(serial_users.data)
     return Response("ERROR")
 
@@ -50,7 +50,7 @@ def getUser(request):
     data = request.data
     user = User.objects.get(id=data["id"])
     myUser = MyUser.objects.get(user=user)
-    serial_users = UserSerializer(myUser, many=False)
+    serial_users = MyUserSerializer(myUser, many=False)
     return Response(serial_users.data)
 
 @api_view(['POST'])
@@ -62,9 +62,19 @@ def createUser(request):
         user = MyUser.objects.create_user(
         username=data["username"], email=data["email"], password=data["password"]
         )
-        serial_user = UserSerializer(user, many=False)
+        serial_user = MyUserSerializer(user, many=False)
         return Response(serial_user.data)
     return Response("el usuario ya existe")
+
+@api_view(['GET'])
+def getContacts(request, pk):
+    user = User.objects.get(id=pk)
+    print(user)
+    myUser = MyUser.objects.get(user=user)
+    print(myUser)
+    contacts = myUser.contacts.all()
+    serial_contacts = MyUserSerializer(contacts, many=True)
+    return Response(serial_contacts.data)
 
 
 
