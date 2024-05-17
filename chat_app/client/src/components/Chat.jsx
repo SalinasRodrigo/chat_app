@@ -1,16 +1,47 @@
+/* eslint-disable react/prop-types */
+import { useEffect, useState } from 'react';
 import './Chat.css'
 
-export default function Chat() {
+export default function Chat( {chatSocket}) {
+  const [messages, setMessages] = useState([])
+  const handleChat = (event) => {
+    event.preventDefault();
+    const data = new FormData(event.target);
+    const message = Object.fromEntries(data);
+    chatSocket.send(JSON.stringify({
+      'message': message
+    }));
+    event.target.reset();
+  }
+
+  useEffect(()=> {
+    if(chatSocket!=null){
+      chatSocket.onmessage = function(e) {
+        const data = JSON.parse(e.data);
+        console.log(...messages)
+        console.log(data.message)
+        const newMessage = [
+          ...messages,
+            data.message
+        ]
+        console.log(newMessage)
+        setMessages(newMessage)
+      };
+    }
+  }, [chatSocket, messages])
+
+
   return (
     <div className="chat">
       <div className="chat-content">
         <ul>
-          <li>mensaje 1</li>
-          <li>mensaje 2</li>
-          <li>mensaje 3</li>
-          <li>mensaje 4</li>
+          {messages.map((message, index) =>{
+            return(
+              <li key={index}>{message.message}</li>
+            )
+          })}
         </ul>
-        <form className="send">
+        <form className="send" onSubmit={handleChat}>
           <input
             type="text"
             name="message"

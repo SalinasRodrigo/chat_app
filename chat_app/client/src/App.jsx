@@ -8,6 +8,7 @@ import Chat from "./components/Chat";
 function App() {
   const [user, setUser] = useState(null);
   const [contacts, setContacts] = useState([]);
+  const [chatSocket, setChatSocket] = useState(null)
 
 
   const handleSubmit = (event) => {
@@ -48,8 +49,8 @@ function App() {
       <>
         {user ? (
           <main>
-            <ChatList setUser={setUser} contacts={contacts} />
-            <Chat />
+            <ChatList user={user} setUser={setUser} contacts={contacts} chatSocket={chatSocket} setChatSocket={setChatSocket} />
+            <Chat chatSocket={chatSocket}/>
           </main>
         ) : (
           <div className="form-bg">
